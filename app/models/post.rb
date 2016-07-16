@@ -22,11 +22,12 @@ class Post < ActiveRecord::Base
   has_many :comments
 
   has_attached_file :image, styles:  { large: "2400x1600#", medium: "600x400>", small: "200x150>" }
-  validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
-
+  validates_attachment :image, presence: true,
+                       content_type: { content_type: /\Aimage\/.*\Z/ },
+                       size: { in: 0..2.megabytes }
   self.per_page = 10
 
   validates :title, presence: true
-  validates :image, presence: true
+
 
 end
